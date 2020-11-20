@@ -1,0 +1,25 @@
+### Decision Tree Classification ##
+ROS ROC-AUC: 86.69%
+Accuracy Avg ROC: 91.10%
+ROS Precision:  0.92 ROS Recall: 0.87 ROS F1-Measure: 0.89     56962
+Avg Precision: 0.93 Avg Recall: 0.91 Avg F-Measure: 0.92
+
+
+### Random Forest CF ##
+ROS ROC-AUC: 89.89%
+Accuracy Avg ROC: 92.03%
+ROS Precision:  0.99 ROS Recall: 0.90 ROS F1-Measure: 0.94     56962
+Avg Precision: 0.97 Avg Recall: 0.92 Avg F-Measure: 0.94
+
+### KNN CF ##
+ROS ROC-AUC: 91.98%
+Accuracy Avg ROC: 93.42%
+ROS Precision:  0.82 ROS Recall: 0.92 ROS F1-Measure: 0.87     56962
+Avg Precision: 0.84 Avg Recall: 0.94 Avg F-Measure: 0.89
+
+## Naive Bayes ##
+
+ROS ROC-AUC: 91.21%
+Accuracy Avg ROC: 93.70%
+ROS Precision:  0.52 ROS Recall: 0.91 ROS F1-Measure: 0.54     56962
+Avg Precision: 0.53 Avg Recall: 0.94 Avg F-Measure: 0.56
