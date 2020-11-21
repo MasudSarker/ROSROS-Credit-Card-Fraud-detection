@@ -96,12 +96,30 @@ y_pred_under = model.predict(X_test)
 print(X_test.shape)
 
 print('Overall Oversampling:',classification_report(y_test, model.predict(X_test)))
+
+#************ Average Result (Precision,Recall, F1-Measure) ***************#
+def classifaction_report_rst(report):
+    i=0
+    report_data = []
+    lines = report.split('\n')
+    for line in lines[2:-2]: 
+        i=i+1
+        row = {}
+        if i==5:
+            row_data = line.split('      ')
+            return row_data
+        
+#************** End of Average Result ******************#
+
+report0 = classification_report(y_test, model.predict(X_test))
+avgrst0 =  classifaction_report_rst(report0)
+
 accuracy = accuracy_score(y_test, y_pred_under)
 
 #print("============ Decision Tree Classifier ================%")
 #print("Accuracy After RandomUnderSampler: %.2f%%" % (accuracy * 100.0))
 roc_auc = roc_auc_score(y_test, y_pred_under)
-print("Accuracy After ROC: %.2f%%" % (roc_auc * 100.0))
+
 #precision, recall, thresholds = precision_recall_curve(y_test, y_pred_under)
 pre_scor= precision_score(y_test, y_pred_under)
 re_scor = recall_score(y_test, y_pred_under)
@@ -169,7 +187,16 @@ print(X_over1.shape)
 model1 = DecisionTreeClassifier()
 model1.fit(X_over1, y_over1)
 y_pred_over1 = model1.predict(X_test1)
+
+
 print('Random Oversampling:',classification_report(y_test1, model1.predict(X_test1)))
+
+roc_auc1 = roc_auc_score(y_test1, model1.predict(X_test1))
+
+
+report1 = classification_report(y_test1, model1.predict(X_test1))
+avgrst1 =  classifaction_report_rst(report1)
+print('Test Result:1',avgrst1)
 
 #****************** Slit-2 ****************#
 #data1 = np.array(two_split[0]).astype(np.float)
@@ -207,57 +234,42 @@ model2 = DecisionTreeClassifier()
 model2.fit(X_over2, y_over2)
 y_pred_over2 = model2.predict(X_test2)
 print('Random UnderSampling:',classification_report(y_test2, model2.predict(X_test2)))
+roc_auc2 = roc_auc_score(y_test2, model2.predict(X_test2))
 
 
-def classifaction_report_csv(report):
-    cd=0
-    i=0
-    report_data = []
-    lines = report.split('\n')
-    for line in lines[2:-2]: 
-        i=i+1
-        row = {}
-        if i==5:
-            row_data = line.split('      ')
-            print(row_data)
-            row['class'] = row_data[0]
-            print('Test',row_data[1])
-            cd = row_data[1]
-            row['precision'] = row_data[1]
-            row['recall'] = row_data[2]
-            row['f1_score'] = row_data[3]
-           # row['support'] = row_data[4]
-          # print(cd)
-       # return cd
-            
-        
-   # dataframe = pd.DataFrame.from_dict(report_data)
-    #dataframe.to_csv('report.csv', index = False)
-def classification_report_rst(report):
-    i=0
-    report_data = []
-    lines = report.split('\n')
-    for line in lines[2:-2]:
-        i=i+1
-        row = {}
-        i=i+1
-        if i == 5:
-            row_data = line.split('      ')
-            print(row_data)
-            precision = row_data[1]
-            print('Precision:',precision)
-            recall = row_data[2]
-            print(recall)
-            f1_score = row_data[3]   
-            print(f1_score)
-#    return precision,recall,f1_score
-
-#abc = classification_report_rst(y_test1)
-#call the classification_report first and then our new function
 
 report = classification_report(y_test2, model2.predict(X_test2))
 #p2,r2,f12 = classification_report_rst(report)
-abcd = classifaction_report_csv(report)
-print('Restul-2',abcd)
-#p2 = classification_report_rst(report)
-#print('Split-2 Precision:',p2,'Recall:',r2,'F1-Measure:',f12)
+avgrst2 =  classifaction_report_rst(report)
+
+
+
+
+print("Accuracy Split-1 ROC: %.2f%%" % (roc_auc1 * 100.0))
+print("Accuracy Split-2 ROC: %.2f%%" % (roc_auc2 * 100.0))
+
+
+f11measure = avgrst1[3][0:4]
+f12measure = avgrst2[3][0:4]
+
+print('Whole Precision:',avgrst0[1],'Recall:',avgrst0[2],'F1-Measure:',avgrst0[3])
+print('Split-1 Precision:',avgrst1[1],'Recall:',avgrst1[2],'F1-Measure:',avgrst1[3])
+print('Split-2 Precision:',avgrst2[1],'Recall:',avgrst2[2],'F1-Measure:',avgrst2[3])
+p1 = round(float(avgrst1[1]),2)
+p2 = round(float(avgrst2[1]),2)
+print('Test-22',p1,'Test21',p2)
+r1 = round(float(avgrst1[2]),2)
+r2 = round(float(avgrst2[2]),2)
+f1 = round(float(f11measure),2)
+f2 = round(float(f12measure),2)
+
+print('=============================================================\n\n')
+print("== Random OverSampling (ROS) and Our model Result Values ==")
+
+print("ROS ROC-AUC: %.2f%%" % (roc_auc * 100.0))
+print("Accuracy Avg ROC: %.2f%%" % ((roc_auc1+roc_auc2)/2 * 100.0))
+
+print('ROS Precision:',avgrst0[1],'ROS Recall:',avgrst0[2],'ROS F1-Measure:',avgrst0[3])
+print('Avg Precision:',round(((p1+p2)/2),2) , 'Avg Recall:',round(((r1+r2)/2),2) ,'Avg F-Measure:', round(((f1+f2)/2),2) )
+
+
